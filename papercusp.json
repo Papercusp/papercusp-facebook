@@ -1,0 +1,43 @@
+{
+  "distribution": "cupboard",
+  "kind": "plugin",
+  "name": "facebook",
+  "version": "0.1.0",
+  "papercusp": "^0.1.0",
+  "description": "Owner-authorized Facebook profile, posts and photo metadata for the Personal Vault. Recorded-fake verified; not live-verified.",
+  "author": "Papercusp",
+  "license": "MIT",
+  "main": "./index.cjs",
+  "runtime": { "kind": "daemon", "daemonCommand": ["node", "daemon.cjs"] },
+  "capabilities": [],
+  "tools": [],
+  "provider": {
+    "id": "facebook",
+    "contractVersion": 1,
+    "displayName": "Facebook Personal Vault",
+    "datatypes": ["social-post"],
+    "capabilities": [],
+    "egressHosts": ["graph.facebook.com", "www.facebook.com"],
+    "oauth": {
+      "authorizeUrl": "https://www.facebook.com/v23.0/dialog/oauth",
+      "tokenUrl": "https://graph.facebook.com/v23.0/oauth/access_token",
+      "clientRegistrationRef": "facebook",
+      "scopeSeparator": ",",
+      "refreshPolicy": "reauthorize",
+      "scopes": ["public_profile", "user_posts", "user_photos"],
+      "identity": {
+        "url": "https://graph.facebook.com/v23.0/me?fields=id,name",
+        "idField": "id",
+        "displayNameField": "name"
+      }
+    },
+    "setup": {
+      "appRegistration": {
+        "createUrl": "https://developers.facebook.com/apps/",
+        "docsUrl": "https://developers.facebook.com/docs/facebook-login/",
+        "copyHint": "Register a Meta app and configure the OAuth callback. This read-only connection covers profile, posts and photo metadata. User posts and photos need the corresponding grants; development mode is limited to app roles."
+      }
+    },
+    "configSchema": { "type": "object", "properties": {}, "additionalProperties": true }
+  }
+}
